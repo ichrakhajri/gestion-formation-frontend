@@ -1,0 +1,67 @@
+<div class="layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">🎓</div>
+      <div>
+        <div class="app-name">Excllent Training</div>
+        <div class="app-sub">Gestion de Formation</div>
+      </div>
+    </div>
+
+    <!--<nav class="nav">
+
+        *ngFor="let item of visibleMenuItems"
+        class="nav-item"
+        href="#">
+        <span class="nav-icon">{{ item.icon }}</span>
+        <span>{{ item.label }}</span>
+      </a>
+    </nav>-->
+
+    <button class="logout-btn" (click)="logout()">
+      <span>⬅</span> Déconnexion
+    </button>
+  </aside>
+
+  <!-- Main content -->
+  <main class="main">
+
+    <!-- Top bar -->
+    <header class="topbar">
+      <div>
+        <h2 class="page-title">Tableau de bord</h2>
+        <p class="page-sub">Bienvenue sur votre espace de gestion</p>
+      </div>
+      <div class="user-badge">
+        <div class="avatar">{{ user?.login?.charAt(0)?.toUpperCase() }}</div>
+        <div>
+          <div class="user-name">{{ user?.login }}</div>
+          <div class="user-role">{{ user?.role }}</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Cards -->
+    <section class="cards">
+      <div
+        *ngFor="let item of visibleMenuItems"
+        class="card">
+        <div class="card-icon">{{ item.icon }}</div>
+        <div class="card-label">{{ item.label }}</div>
+        <div class="card-arrow">→</div>
+      </div>
+    </section>
+
+    <!-- Info banner -->
+    <div class="info-banner">
+      <div class="info-icon">✅</div>
+      <div>
+        <strong>Connexion réussie</strong>
+        <p>Vous êtes connecté en tant que <strong>{{ user?.role }}</strong>. Les menus affichés correspondent à vos permissions.</p>
+      </div>
+    </div>
+
+  </main>
+</div>

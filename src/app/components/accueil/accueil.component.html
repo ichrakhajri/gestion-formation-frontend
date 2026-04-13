@@ -1,0 +1,184 @@
+<div class="w-full font-poppins bg-gray-50">
+
+  <!-- NAVBAR -->
+  <nav class="bg-white shadow-sm px-6 md:px-12 py-4 flex justify-between items-center">
+    <div class="flex items-center gap-3 cursor-pointer" [routerLink]="['/']">
+      <img src="assets/images/logogreen.png" class="h-12">
+      <div>
+        <p class="font-bold text-lg text-gray-800">Excellent Training</p>
+        <p class="text-xs text-gray-500">Green Building</p>
+      </div>
+    </div>
+
+    <ul class="hidden md:flex gap-8 text-gray-600 font-medium">
+      <li><a [routerLink]="['/']" routerLinkActive="text-gray-900 font-semibold" class="hover:text-gray-900">Accueil</a></li>
+      <li><a [routerLink]="['/formations']" routerLinkActive="text-gray-900 font-semibold" class="hover:text-gray-900">Formations</a></li>
+      <li><a [routerLink]="['/formateurs']" routerLinkActive="text-gray-900 font-semibold" class="hover:text-gray-900">Formateurs</a></li>
+      <li><a [routerLink]="['/participants']" routerLinkActive="text-gray-900 font-semibold" class="hover:text-gray-900">Participants</a></li>
+      <li><a [routerLink]="['/statistiques']" routerLinkActive="text-gray-900 font-semibold" class="hover:text-gray-900">Statistiques</a></li>
+      <li><a [routerLink]="['/about']" routerLinkActive="text-gray-900 font-semibold" class="hover:text-gray-900">À propos</a></li>
+    </ul>
+
+    <button [routerLink]="['/login']" class="bg-gray-800 text-white px-5 py-2 rounded-full hover:bg-gray-900">
+      Connexion
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="bg-white py-20 px-6 overflow-hidden">
+    <div class="max-w-7xl mx-auto grid md:grid-cols-2 items-center gap-12">
+
+      <!-- TEXTE -->
+      <div class="space-y-6 animate-fadeInLeft">
+        <h1 class="text-5xl font-bold text-gray-800 leading-tight">
+          Développez vos compétences<br>
+          <span class="text-gray-600">avec des formations modernes</span>
+        </h1>
+
+        <p class="text-gray-500 text-lg">
+          Une plateforme professionnelle pour apprendre, évoluer et réussir dans votre carrière.
+        </p>
+
+        <div class="flex gap-4">
+          <button [routerLink]="['/formations']"
+            class="bg-gray-800 text-white px-8 py-3 rounded-full hover:bg-gray-900 transition">
+            Explorer
+          </button>
+
+          <button [routerLink]="['/contact']"
+            class="border border-gray-300 px-8 py-3 rounded-full hover:bg-gray-100 transition">
+            Contact
+          </button>
+        </div>
+      </div>
+
+      <!-- IMAGES -->
+      <div class="relative h-[400px] animate-fadeInRight">
+        <img src="assets/images/image11.png"
+          class="absolute top-0 left-0 w-72 rounded-2xl shadow-2xl transform rotate-[-6deg] hover:rotate-0 hover:scale-105 transition duration-500">
+
+        <img src="assets/images/image12.png"
+          class="absolute bottom-0 right-0 w-72 rounded-2xl shadow-2xl transform rotate-[6deg] hover:rotate-0 hover:scale-105 transition duration-500">
+
+        <div class="absolute inset-0 bg-gray-200 rounded-full blur-3xl opacity-20"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FORMATIONS -->
+  <section class="py-20 px-6 max-w-6xl mx-auto">
+    <div class="text-center mb-14">
+      <h2 class="text-4xl font-bold text-gray-800 mb-4">
+        Des formations adaptées à vos besoins
+      </h2>
+      <p class="text-gray-500 text-lg">
+        Des domaines variés pour booster votre carrière
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div class="bg-white rounded-2xl p-8 text-center shadow-sm hover:shadow-xl transition">
+        <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-5">
+          <i class="fas fa-laptop-code text-2xl text-gray-700"></i>
+        </div>
+        <h3 class="font-bold text-lg text-gray-800 mb-2">Informatique</h3>
+        <p class="text-sm text-gray-500">Développement, IA, cybersécurité</p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-8 text-center shadow-sm hover:shadow-xl transition">
+        <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-5">
+          <i class="fas fa-chart-line text-2xl text-gray-700"></i>
+        </div>
+        <h3 class="font-bold text-lg text-gray-800 mb-2">Finance</h3>
+        <p class="text-sm text-gray-500">Gestion, comptabilité, audit</p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-8 text-center shadow-sm hover:shadow-xl transition">
+        <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-5">
+          <i class="fas fa-cogs text-2xl text-gray-700"></i>
+        </div>
+        <h3 class="font-bold text-lg text-gray-800 mb-2">Mécanique</h3>
+        <p class="text-sm text-gray-500">Maintenance industrielle</p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-8 text-center shadow-sm hover:shadow-xl transition">
+        <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-5">
+          <i class="fas fa-users text-2xl text-gray-700"></i>
+        </div>
+        <h3 class="font-bold text-lg text-gray-800 mb-2">Management</h3>
+        <p class="text-sm text-gray-500">Leadership, RH</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-gray-800 text-white py-20 text-center">
+    <h2 class="text-3xl font-bold mb-4">
+      Boostez votre carrière dès aujourd'hui
+    </h2>
+    <p class="text-gray-300 mb-8">
+      Rejoignez notre plateforme et gérez vos formations facilement
+    </p>
+    <button [routerLink]="['/login']" class="bg-white text-gray-800 px-8 py-3 rounded-full font-bold hover:bg-gray-200">
+      Commencer maintenant
+    </button>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-gray-900 text-gray-400 pt-16 pb-8">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-4 gap-10 mb-12">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <img src="assets/images/logogreen.png" class="h-10">
+            <span class="text-white font-bold text-lg">Excellent Training</span>
+          </div>
+          <p class="text-sm text-gray-500">
+            Plateforme de formation professionnelle dédiée au développement des compétences.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="text-white font-semibold mb-4">Navigation</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a [routerLink]="['/formations']" class="hover:text-white">Formations</a></li>
+            <li><a [routerLink]="['/formateurs']" class="hover:text-white">Formateurs</a></li>
+            <li><a [routerLink]="['/participants']" class="hover:text-white">Participants</a></li>
+            <li><a [routerLink]="['/statistiques']" class="hover:text-white">Statistiques</a></li>
+            <li><a [routerLink]="['/about']" class="hover:text-white">À propos</a></li>
+            <li><a [routerLink]="['/contact']" class="hover:text-white">Contact</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-semibold mb-4">Contact</h4>
+          <ul class="space-y-3 text-sm">
+            <li><i class="fas fa-envelope mr-2"></i>contact&#64;excellenttraining.tn</li>
+            <li><i class="fas fa-phone mr-2"></i> +216 25 000 000</li>
+            <li><i class="fas fa-map-marker-alt mr-2"></i> Tunis, Tunisie</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-semibold mb-4">Suivez-nous</h4>
+          <div class="flex gap-4 mb-6">
+            <i class="fab fa-linkedin text-xl hover:text-white cursor-pointer"></i>
+            <i class="fab fa-facebook text-xl hover:text-white cursor-pointer"></i>
+            <i class="fab fa-twitter text-xl hover:text-white cursor-pointer"></i>
+          </div>
+          <div class="text-sm space-y-2">
+            <p><span class="text-white font-bold">+500</span> formations</p>
+            <p><span class="text-white font-bold">+1200</span> étudiants</p>
+            <p><span class="text-white font-bold">+50</span> formateurs</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-800 pt-6 text-center text-xs text-gray-500">
+        © 2026 Excellent Training — Tous droits réservés
+      </div>
+    </div>
+  </footer>
+
+</div>
