@@ -2,36 +2,35 @@ import { Component, OnInit } from '@angular/core';
 import { SidebarMixin } from '../../../mixins/sidebar.mixin';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
-import { Router, RouterLink, RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-profil-list',
-  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
+  selector: 'app-employeur-list',
   standalone: true,
-  templateUrl: './profil-list.component.html',
-  styleUrl: './profil-list.component.scss'
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule],
+  templateUrl: './employeur-list.component.html',
+  styleUrl: './employeur-list.component.scss'
 })
-export class ProfilListComponent extends SidebarMixin implements OnInit {
-  profils: any[]           = [];
-  filtered: any[]          = [];
-  searchText               = '';
-  loading                  = false;
-  errorMessage             = '';
+export class EmployeurListComponent extends SidebarMixin implements OnInit {
+  employeurs: any[]         = [];
+  filtered: any[]           = [];
+  searchText                = '';
+  loading                   = false;
+  errorMessage              = '';
 
-  showAddModal             = false;
-  addLoading               = false;
-  addSuccess               = '';
+  showAddModal              = false;
+  addLoading                = false;
+  addSuccess                = '';
   addForm: FormGroup;
 
-  showDeleteModal          = false;
-  deleteLoading            = false;
-  deleteSuccess            = '';
-  profilToDelete: any      = null;
+  showDeleteModal           = false;
+  deleteLoading             = false;
+  deleteSuccess             = '';
+  employeurToDelete: any    = null;
 
-  // Correction : suppression de l'espace dans l'URL
-  private apiUrl = 'http://localhost:8080/api/profils';
+  private apiUrl = 'http://localhost:8080/api/employeurs';
 
   constructor(
     authService: AuthService,
@@ -41,7 +40,7 @@ export class ProfilListComponent extends SidebarMixin implements OnInit {
   ) {
     super(authService, router);
     this.addForm = this.fb.group({
-      libelle: ['', [Validators.required, Validators.minLength(2)]]
+      nomEmployeur: ['', [Validators.required, Validators.minLength(2)]]
     });
   }
 
@@ -54,13 +53,12 @@ export class ProfilListComponent extends SidebarMixin implements OnInit {
     this.loading = true;
     this.http.get<any[]>(this.apiUrl).subscribe({
       next: (data) => {
-        this.profils = data;
+        this.employeurs = data;
         this.filtered = data;
         this.loading = false;
       },
-      error: (err) => {
-        console.error('Erreur de chargement:', err);
-        this.errorMessage = 'Erreur de chargement des profils.';
+      error: () => {
+        this.errorMessage = 'Erreur de chargement des employeurs.';
         this.loading = false;
       }
     });
@@ -68,14 +66,14 @@ export class ProfilListComponent extends SidebarMixin implements OnInit {
 
   onSearch(): void {
     const q = this.searchText.toLowerCase();
-    this.filtered = this.profils.filter(p =>
-      p.libelle && p.libelle.toLowerCase().includes(q)
+    this.filtered = this.employeurs.filter(e =>
+      e.nomEmployeur.toLowerCase().includes(q)
     );
   }
 
   clearSearch(): void {
     this.searchText = '';
-    this.filtered = this.profils;
+    this.filtered = this.employeurs;
   }
 
   // Ajout
@@ -97,47 +95,45 @@ export class ProfilListComponent extends SidebarMixin implements OnInit {
 
     this.addLoading = true;
     this.http.post<any>(this.apiUrl, this.addForm.value).subscribe({
-      next: (profil) => {
-        this.profils.push(profil);
-        this.filtered = [...this.profils];
+      next: (employeur) => {
+        this.employeurs.push(employeur);
+        this.filtered = [...this.employeurs];
         this.addLoading = false;
-        this.addSuccess = 'Profil ajouté avec succès !';
+        this.addSuccess = 'Employeur ajouté avec succès !';
         setTimeout(() => this.closeAdd(), 1200);
       },
-      error: (err) => {
-        console.error('Erreur ajout:', err);
+      error: () => {
         this.addLoading = false;
-        this.errorMessage = 'Erreur lors de l\'ajout du profil.';
+        this.errorMessage = 'Erreur lors de l\'ajout de l\'employeur.';
       }
     });
   }
 
   // Suppression
-  openDelete(profil: any): void {
-    this.profilToDelete = profil;
+  openDelete(employeur: any): void {
+    this.employeurToDelete = employeur;
     this.showDeleteModal = true;
     this.deleteSuccess = '';
   }
 
   closeDelete(): void {
     this.showDeleteModal = false;
-    this.profilToDelete = null;
+    this.employeurToDelete = null;
   }
 
   confirmDelete(): void {
-    if (!this.profilToDelete) return;
+    if (!this.employeurToDelete) return;
 
     this.deleteLoading = true;
-    this.http.delete(`${this.apiUrl}/${this.profilToDelete.id}`).subscribe({
+    this.http.delete(`${this.apiUrl}/${this.employeurToDelete.id}`).subscribe({
       next: () => {
-        this.profils = this.profils.filter(p => p.id !== this.profilToDelete.id);
-        this.filtered = this.filtered.filter(p => p.id !== this.profilToDelete.id);
+        this.employeurs = this.employeurs.filter(e => e.id !== this.employeurToDelete.id);
+        this.filtered = this.filtered.filter(e => e.id !== this.employeurToDelete.id);
         this.deleteLoading = false;
-        this.deleteSuccess = 'Profil supprimé avec succès.';
+        this.deleteSuccess = 'Employeur supprimé avec succès.';
         setTimeout(() => this.closeDelete(), 1200);
       },
-      error: (err) => {
-        console.error('Erreur suppression:', err);
+      error: () => {
         this.deleteLoading = false;
         this.errorMessage = 'Erreur lors de la suppression.';
       }

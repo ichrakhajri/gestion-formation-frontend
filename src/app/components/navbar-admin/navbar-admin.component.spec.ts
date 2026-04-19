@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProfilListComponent } from './profil-list.component';
+import { NavbarAdminComponent } from './navbar-admin.component';
 
-describe('ProfilListComponent', () => {
-  let component: ProfilListComponent;
-  let fixture: ComponentFixture<ProfilListComponent>;
+describe('NavbarAdminComponent', () => {
+  let component: NavbarAdminComponent;
+  let fixture: ComponentFixture<NavbarAdminComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProfilListComponent]
+      imports: [NavbarAdminComponent]
     })
     .compileComponents();
-
-    fixture = TestBed.createComponent(ProfilListComponent);
+    
+    fixture = TestBed.createComponent(NavbarAdminComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

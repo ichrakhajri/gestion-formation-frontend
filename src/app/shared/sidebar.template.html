@@ -1,0 +1,63 @@
+<!-- SIDEBAR -->
+<aside
+  [class.w-64]="!isSidebarCollapsed"
+  [class.w-20]="isSidebarCollapsed"
+  class="fixed left-0 top-0 h-full bg-gradient-to-b from-gray-900 to-gray-800
+         text-white transition-all duration-300 z-30 shadow-2xl flex flex-col">
+
+  <div class="flex items-center justify-between p-4 border-b border-gray-700">
+    <div class="flex items-center gap-3 overflow-hidden">
+      <i class="fas fa-chalkboard-user text-2xl text-blue-400 flex-shrink-0"></i>
+      @if (!isSidebarCollapsed) {
+        <span class="font-bold text-lg whitespace-nowrap">Gestion Formation</span>
+      }
+    </div>
+    <button (click)="toggleSidebar()"
+            class="p-1 rounded-lg hover:bg-gray-700 transition flex-shrink-0">
+      <i class="fas text-sm"
+         [class.fa-chevron-left]="!isSidebarCollapsed"
+         [class.fa-chevron-right]="isSidebarCollapsed"></i>
+    </button>
+  </div>
+
+  <nav class="flex-1 py-4 overflow-y-auto">
+    <ul class="space-y-1">
+      @for (item of visibleMenuItems; track item.route) {
+        <li>
+          <a [routerLink]="item.route"
+             routerLinkActive="bg-blue-600/20 border-l-4 border-blue-500"
+             class="relative flex items-center gap-3 px-4 py-3 text-gray-300
+                    hover:bg-gray-700/50 hover:text-white transition-all group"
+             [class.justify-center]="isSidebarCollapsed">
+            <i [class]="item.icon + ' text-lg w-5 flex-shrink-0'"></i>
+            @if (!isSidebarCollapsed) {
+              <span class="text-sm font-medium">{{ item.label }}</span>
+            }
+            @if (isSidebarCollapsed) {
+              <div class="absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white
+                          text-xs rounded opacity-0 group-hover:opacity-100
+                          transition pointer-events-none whitespace-nowrap z-50">
+                {{ item.label }}
+              </div>
+            }
+          </a>
+        </li>
+      }
+    </ul>
+  </nav>
+
+  <div class="border-t border-gray-700 p-4">
+    <div class="flex items-center gap-3" [class.justify-center]="isSidebarCollapsed">
+      <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center
+                  justify-center flex-shrink-0">
+        <i [class]="getRoleIcon()" class="text-white text-sm"></i>
+      </div>
+      @if (!isSidebarCollapsed) {
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-medium truncate">{{ user?.login }}</p>
+          <p class="text-xs text-gray-400 truncate">{{ user?.role }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</aside>

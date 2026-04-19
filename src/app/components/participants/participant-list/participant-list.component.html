@@ -1,1 +1,433 @@
-<p>participant-list works!</p>
+<div class="min-h-screen bg-gray-50">
+
+  <!-- SIDEBAR -->
+  <aside [class.w-64]="!isSidebarCollapsed" [class.w-20]="isSidebarCollapsed"
+    class="fixed left-0 top-0 h-full bg-gradient-to-b from-gray-900 to-gray-800
+           text-white transition-all duration-300 z-30 shadow-2xl flex flex-col">
+    <div class="flex items-center justify-between p-4 border-b border-gray-700">
+      <div class="flex items-center gap-3 overflow-hidden">
+        <i class="fas fa-chalkboard-user text-2xl text-blue-400 flex-shrink-0"></i>
+        @if (!isSidebarCollapsed) { <span class="font-bold text-lg whitespace-nowrap">Gestion Formation</span> }
+      </div>
+      <button (click)="toggleSidebar()" class="p-1 rounded-lg hover:bg-gray-700 transition flex-shrink-0">
+        <i class="fas text-sm" [class.fa-chevron-left]="!isSidebarCollapsed" [class.fa-chevron-right]="isSidebarCollapsed"></i>
+      </button>
+    </div>
+    <nav class="flex-1 py-4 overflow-y-auto">
+      <ul class="space-y-1">
+        @for (item of visibleMenuItems; track item.route) {
+          <li>
+            <a [routerLink]="item.route" routerLinkActive="bg-blue-600/20 border-l-4 border-blue-500"
+               class="relative flex items-center gap-3 px-4 py-3 text-gray-300 hover:bg-gray-700/50 hover:text-white transition-all group"
+               [class.justify-center]="isSidebarCollapsed">
+              <i [class]="item.icon + ' text-lg w-5 flex-shrink-0'"></i>
+              @if (!isSidebarCollapsed) { <span class="text-sm font-medium">{{ item.label }}</span> }
+              @if (isSidebarCollapsed) {
+                <div class="absolute left-full ml-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap z-50">{{ item.label }}</div>
+              }
+            </a>
+          </li>
+        }
+      </ul>
+    </nav>
+    <div class="border-t border-gray-700 p-4">
+      <div class="flex items-center gap-3" [class.justify-center]="isSidebarCollapsed">
+        <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0">
+          <i [class]="getRoleIcon()" class="text-white text-sm"></i>
+        </div>
+        @if (!isSidebarCollapsed) {
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium truncate">{{ user?.login }}</p>
+            <p class="text-xs text-gray-400 truncate">{{ user?.role }}</p>
+          </div>
+        }
+      </div>
+    </div>
+  </aside>
+
+  <!-- CONTENU -->
+  <div class="transition-all duration-300 min-h-screen flex flex-col"
+       [class.ml-64]="!isSidebarCollapsed" [class.ml-20]="isSidebarCollapsed">
+
+    <header class="bg-white shadow-sm sticky top-0 z-20">
+      <div class="px-6 py-4 flex items-center justify-between">
+        <div class="flex-1">
+          <h1 class="text-xl font-semibold text-gray-800">Participants</h1>
+          <p class="text-xs text-gray-500">Gestion des participants aux formations</p>
+        </div>
+        <div class="relative">
+          <button (click)="toggleUserMenu()" class="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold text-sm">
+              {{ user?.login?.charAt(0)?.toUpperCase() }}
+            </div>
+            <div class="hidden md:block text-left">
+              <p class="text-sm font-medium text-gray-700">{{ user?.login }}</p>
+              <p class="text-xs text-gray-500">{{ user?.role }}</p>
+            </div>
+            <i class="fas fa-chevron-down text-gray-400 text-xs hidden md:block"></i>
+          </button>
+          @if (isUserMenuOpen) {
+            <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-2 z-50">
+              <button (click)="logout()" class="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition">
+                <i class="fas fa-sign-out-alt"></i> Déconnexion
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1 p-6">
+
+      <!-- CARDS -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        <div (click)="openAdd()" class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition cursor-pointer border border-gray-100 hover:border-blue-200 group">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center group-hover:bg-blue-100 transition">
+              <i class="fas fa-user-plus text-xl text-blue-600"></i>
+            </div>
+            <div>
+              <h3 class="font-semibold text-gray-800">Ajouter un participant</h3>
+              <p class="text-xs text-gray-400">Inscrire un nouveau participant</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center">
+              <i class="fas fa-users text-xl text-gray-600"></i>
+            </div>
+            <div>
+              <h3 class="font-semibold text-gray-800">Total participants</h3>
+              <p class="text-2xl font-bold text-blue-600">{{ participants.length }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECHERCHE -->
+      <div class="bg-white rounded-2xl shadow-sm p-4 mb-4 border border-gray-100">
+        <div class="relative">
+          <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+          <input type="text" [(ngModel)]="searchText" (input)="onSearch()" placeholder="Rechercher par nom, prénom ou email..."
+            class="w-full pl-10 pr-10 py-2 rounded-full border border-gray-200 bg-gray-50 text-gray-800 text-sm outline-none transition focus:border-gray-800 focus:ring-2 focus:ring-gray-100"/>
+          @if (searchText) {
+            <button (click)="clearSearch()" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+              <i class="fas fa-times text-sm"></i>
+            </button>
+          }
+        </div>
+      </div>
+
+      @if (errorMessage) {
+        <div class="mb-4 px-4 py-3 rounded-2xl bg-red-50 text-red-500 text-sm flex items-center gap-3">
+          <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+        </div>
+      }
+
+      <!-- TABLEAU -->
+      <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        @if (loading) {
+          <div class="flex items-center justify-center py-16">
+            <svg class="animate-spin h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+            </svg>
+          </div>
+        } @else if (filtered.length === 0) {
+          <div class="text-center py-16">
+            <i class="fas fa-users text-4xl text-gray-200 mb-3 block"></i>
+            <p class="text-gray-400 text-sm">Aucun participant trouvé</p>
+          </div>
+        } @else {
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead class="bg-gray-50 border-b border-gray-100">
+                <tr>
+                  <th class="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">#</th>
+                  <th class="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Nom complet</th>
+                  <th class="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Email</th>
+                  <th class="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Téléphone</th>
+                  <th class="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Structure</th>
+                  <th class="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Profil</th>
+                  <th class="text-center px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-50">
+                @for (participant of filtered; track participant.id; let i = $index) {
+                  <tr class="hover:bg-gray-50 transition">
+                    <td class="px-6 py-4 text-gray-400">{{ i + 1 }}</td>
+                    <td class="px-6 py-4">
+                      <!-- CLIQUABLE : ouvre le détail des formations -->
+                      <div class="flex items-center gap-3 cursor-pointer group" (click)="openDetail(participant)">
+                        <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center group-hover:bg-blue-200 transition">
+                          <i class="fas fa-user text-blue-600 text-xs"></i>
+                        </div>
+                        <span class="font-medium text-blue-700 hover:text-blue-900 hover:underline transition">
+                          {{ participant.prenom }} {{ participant.nom }}
+                        </span>
+                      </div>
+                    </td>
+                    <td class="px-6 py-4 text-gray-600">{{ participant.email }}</td>
+                    <td class="px-6 py-4 text-gray-600">{{ participant.tel || '-' }}</td>
+                    <td class="px-6 py-4">
+                      <span class="px-2 py-1 rounded-full bg-green-100 text-green-700 text-xs">
+                        {{ getStructureNom(participant) }}
+                      </span>
+                    </td>
+                    <td class="px-6 py-4">
+                      <span class="px-2 py-1 rounded-full bg-purple-100 text-purple-700 text-xs">
+                        {{ getProfilLibelle(participant) }}
+                      </span>
+                    </td>
+                    <td class="px-6 py-4 text-center">
+                      <button (click)="openDelete(participant)" class="px-3 py-1 rounded-full text-xs font-semibold bg-red-50 text-red-600 hover:bg-red-100 transition flex items-center gap-1 mx-auto">
+                        <i class="fas fa-trash text-xs"></i> Supprimer
+                      </button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </div>
+    </main>
+  </div>
+
+  <!-- ==================== MODAL DÉTAIL FORMATIONS DU PARTICIPANT ==================== -->
+  @if (showDetailModal && selectedParticipant) {
+    <div class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center px-4">
+      <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+
+        <!-- En-tête -->
+        <div class="flex justify-between items-start mb-6">
+          <div class="flex items-center gap-4">
+            <div class="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-user text-blue-600 text-xl"></i>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-gray-800">
+                {{ selectedParticipant.prenom }} {{ selectedParticipant.nom }}
+              </h3>
+              <p class="text-sm text-gray-500">{{ selectedParticipant.email }}</p>
+              <div class="flex gap-2 mt-1">
+                <span class="px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-xs">
+                  {{ getStructureNom(selectedParticipant) }}
+                </span>
+                <span class="px-2 py-0.5 rounded-full bg-purple-100 text-purple-700 text-xs">
+                  {{ getProfilLibelle(selectedParticipant) }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <button (click)="closeDetail()" class="text-gray-400 hover:text-gray-600 mt-1">
+            <i class="fas fa-times text-xl"></i>
+          </button>
+        </div>
+
+        <!-- Titre section formations -->
+        <div class="flex items-center gap-2 mb-4 pb-3 border-b border-gray-100">
+          <i class="fas fa-graduation-cap text-blue-600"></i>
+          <h4 class="font-semibold text-gray-800">Formations suivies</h4>
+          @if (!detailLoading) {
+            <span class="ml-1 px-2 py-0.5 rounded-full text-xs font-semibold"
+                  [class.bg-blue-100]="participantFormations.length > 0"
+                  [class.text-blue-700]="participantFormations.length > 0"
+                  [class.bg-gray-100]="participantFormations.length === 0"
+                  [class.text-gray-500]="participantFormations.length === 0">
+              {{ participantFormations.length }} formation(s)
+            </span>
+          }
+        </div>
+
+        <!-- Chargement -->
+        @if (detailLoading) {
+          <div class="flex items-center justify-center py-12">
+            <svg class="animate-spin h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+            </svg>
+          </div>
+        } @else if (participantFormations.length === 0) {
+          <div class="text-center py-12 bg-gray-50 rounded-xl">
+            <i class="fas fa-book-open text-4xl text-gray-200 mb-3 block"></i>
+            <p class="text-gray-400 text-sm font-medium">Aucune formation suivie</p>
+            <p class="text-gray-300 text-xs mt-1">Ce participant n'est inscrit à aucune formation</p>
+          </div>
+        } @else {
+          <div class="space-y-3">
+            @for (formation of participantFormations; track formation.id; let i = $index) {
+              <div class="border border-gray-100 rounded-xl p-4 hover:border-blue-200 hover:bg-blue-50/30 transition">
+                <div class="flex items-start justify-between">
+                  <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                      <span class="text-blue-700 text-xs font-bold">{{ i + 1 }}</span>
+                    </div>
+                    <div>
+                      <p class="font-semibold text-gray-800 text-sm">{{ formation.titre }}</p>
+                      <div class="flex flex-wrap gap-2 mt-1">
+                        <span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 text-xs">
+                          <i class="fas fa-tag text-xs mr-1"></i>{{ getDomaineLibelle(formation) }}
+                        </span>
+                        <span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 text-xs">
+                          <i class="fas fa-calendar text-xs mr-1"></i>{{ formation.annee }}
+                        </span>
+                        <span class="px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-xs">
+                          <i class="fas fa-clock text-xs mr-1"></i>{{ formation.duree }} jour(s)
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-right flex-shrink-0 ml-3">
+                    <p class="text-sm font-semibold text-gray-700">{{ formation.budget | number }} DT</p>
+                    <p class="text-xs text-gray-400">Budget</p>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+
+        <!-- Pied du modal -->
+        <div class="flex justify-end mt-6 pt-4 border-t border-gray-100">
+          <button (click)="closeDetail()" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition text-sm font-medium">
+            Fermer
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- ==================== MODAL AJOUT ==================== -->
+  @if (showAddModal) {
+    <div class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center px-4">
+      <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full max-h-[90vh] overflow-y-auto">
+        @if (addSuccess) {
+          <div class="text-center">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-check text-2xl text-green-600"></i>
+            </div>
+            <p class="text-gray-700 font-medium">{{ addSuccess }}</p>
+          </div>
+        } @else {
+          <h3 class="text-xl font-bold text-gray-800 mb-6 text-center">Ajouter un participant</h3>
+          <form [formGroup]="addForm" (ngSubmit)="submitAdd()" class="space-y-4">
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-gray-700 mb-1">Nom <span class="text-red-400">*</span></label>
+                <input type="text" formControlName="nom" placeholder="Dupont"
+                  class="w-full px-4 py-2 rounded-full border border-gray-200 bg-gray-50 text-sm outline-none focus:border-gray-800 focus:ring-2 focus:ring-gray-100"
+                  [class.border-red-300]="addForm.get('nom')?.invalid && addForm.get('nom')?.touched"/>
+                @if (addForm.get('nom')?.invalid && addForm.get('nom')?.touched) {
+                  <p class="mt-1 text-xs text-red-400 pl-3">Nom obligatoire</p>
+                }
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-700 mb-1">Prénom <span class="text-red-400">*</span></label>
+                <input type="text" formControlName="prenom" placeholder="Jean"
+                  class="w-full px-4 py-2 rounded-full border border-gray-200 bg-gray-50 text-sm outline-none focus:border-gray-800 focus:ring-2 focus:ring-gray-100"
+                  [class.border-red-300]="addForm.get('prenom')?.invalid && addForm.get('prenom')?.touched"/>
+                @if (addForm.get('prenom')?.invalid && addForm.get('prenom')?.touched) {
+                  <p class="mt-1 text-xs text-red-400 pl-3">Prénom obligatoire</p>
+                }
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-1">Email <span class="text-red-400">*</span></label>
+              <input type="email" formControlName="email" placeholder="jean.dupont@email.com"
+                class="w-full px-4 py-2 rounded-full border border-gray-200 bg-gray-50 text-sm outline-none focus:border-gray-800 focus:ring-2 focus:ring-gray-100"
+                [class.border-red-300]="addForm.get('email')?.invalid && addForm.get('email')?.touched"/>
+                @if (addForm.get('email')?.invalid && addForm.get('email')?.touched) {
+                  <p class="mt-1 text-xs text-red-400 pl-3">Email valide obligatoire</p>
+                }
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-gray-700 mb-1">Téléphone (8 chiffres)</label>
+              <input type="tel" formControlName="tel" placeholder="12345678"
+                class="w-full px-4 py-2 rounded-full border border-gray-200 bg-gray-50 text-sm outline-none focus:border-gray-800 focus:ring-2 focus:ring-gray-100"
+                [class.border-red-300]="addForm.get('tel')?.invalid && addForm.get('tel')?.touched"/>
+                @if (addForm.get('tel')?.invalid && addForm.get('tel')?.touched) {
+                  <p class="mt-1 text-xs text-red-400 pl-3">8 chiffres requis</p>
+                }
+            </div>
+
+            <div formGroupName="structure">
+              <label class="block text-xs font-semibold text-gray-700 mb-1">Structure <span class="text-red-400">*</span></label>
+              <select formControlName="id" class="w-full px-4 py-2 rounded-full border border-gray-200 bg-gray-50 text-sm outline-none focus:border-gray-800 focus:ring-2 focus:ring-gray-100">
+                <option [ngValue]="null">Sélectionner une structure</option>
+                @for (structure of structures; track structure.id) {
+                  <option [ngValue]="structure.id">{{ structure.libelle }}</option>
+                }
+              </select>
+            </div>
+
+            <div formGroupName="profil">
+              <label class="block text-xs font-semibold text-gray-700 mb-1">Profil <span class="text-red-400">*</span></label>
+              <select formControlName="id" class="w-full px-4 py-2 rounded-full border border-gray-200 bg-gray-50 text-sm outline-none focus:border-gray-800 focus:ring-2 focus:ring-gray-100">
+                <option [ngValue]="null">Sélectionner un profil</option>
+                @for (profil of profils; track profil.id) {
+                  <option [ngValue]="profil.id">{{ profil.libelle }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="flex gap-3 pt-2">
+              <button type="button" (click)="closeAdd()" class="flex-1 border border-gray-300 text-gray-600 py-2 rounded-full font-semibold hover:bg-gray-100 transition text-sm">Annuler</button>
+              <button type="submit" [disabled]="addLoading" class="flex-1 bg-gray-800 text-white py-2 rounded-full font-semibold hover:bg-gray-900 transition text-sm flex items-center justify-center gap-2 disabled:opacity-50">
+                @if (addLoading) {
+                  <svg class="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                  </svg>
+                }
+                Ajouter
+              </button>
+            </div>
+          </form>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- ==================== MODAL SUPPRESSION ==================== -->
+  @if (showDeleteModal) {
+    <div class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center px-4">
+      <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full">
+        @if (deleteSuccess) {
+          <div class="text-center">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-check text-2xl text-green-600"></i>
+            </div>
+            <p class="text-gray-700 font-medium">{{ deleteSuccess }}</p>
+          </div>
+        } @else {
+          <div class="text-center mb-6">
+            <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-trash text-2xl text-red-600"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Supprimer le participant</h3>
+            <p class="text-gray-500 text-sm">Voulez-vous vraiment supprimer
+              <strong class="text-gray-800">{{ participantToDelete?.prenom }} {{ participantToDelete?.nom }}</strong> ?
+            </p>
+          </div>
+          <div class="flex gap-3">
+            <button (click)="closeDelete()" class="flex-1 border border-gray-300 text-gray-600 py-2 rounded-full font-semibold hover:bg-gray-100 transition text-sm">Annuler</button>
+            <button (click)="confirmDelete()" [disabled]="deleteLoading" class="flex-1 bg-red-600 text-white py-2 rounded-full font-semibold hover:bg-red-700 transition text-sm flex items-center justify-center gap-2 disabled:opacity-50">
+              @if (deleteLoading) {
+                <svg class="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                </svg>
+              }
+              Confirmer
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+</div>
