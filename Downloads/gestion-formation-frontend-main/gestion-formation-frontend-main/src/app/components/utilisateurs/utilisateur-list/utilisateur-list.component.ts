@@ -145,16 +145,36 @@ export class UtilisateurListComponent implements OnInit {
       role:  { id: Number(this.editRoleId) }
     };
     if (this.editPassword.trim()) {
-      payload.motDePasse = this.editPassword;
+      payload.password = this.editPassword;
     }
 
     this.http.put<any>(`${this.apiUrl}/${this.utilisateurToEdit.id}`, payload).subscribe({
-      next: (updated) => {
-        const idx = this.utilisateurs.findIndex(u => u.id === updated.id);
-        if (idx !== -1) this.utilisateurs[idx] = updated;
-        this.filteredUtilisateurs = [...this.utilisateurs];
-        this.editLoading          = false;
-        this.editSuccess          = 'Utilisateur modifié avec succès.';
+      next: () => {
+        const selectedRole = this.roles.find(r => r.id === Number(this.editRoleId));
+
+        const idx = this.utilisateurs.findIndex(u => u.id === this.utilisateurToEdit.id);
+        if (idx !== -1) {
+          this.utilisateurs[idx] = {
+            ...this.utilisateurs[idx],
+            login: this.editLogin,
+            role:  selectedRole
+          };
+        }
+
+        const fidx = this.filteredUtilisateurs.findIndex(u => u.id === this.utilisateurToEdit.id);
+        if (fidx !== -1) {
+          this.filteredUtilisateurs[fidx] = {
+            ...this.filteredUtilisateurs[fidx],
+            login: this.editLogin,
+            role:  selectedRole
+          };
+        }
+
+        this.utilisateurs         = [...this.utilisateurs];
+        this.filteredUtilisateurs = [...this.filteredUtilisateurs];
+
+        this.editLoading = false;
+        this.editSuccess = 'Utilisateur modifié avec succès.';
         setTimeout(() => this.closeEditModal(), 1200);
       },
       error: () => {
