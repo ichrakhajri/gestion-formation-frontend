@@ -1,0 +1,278 @@
+<div class="w-full font-poppins bg-gray-50">
+
+  <!-- NAVBAR -->
+  <nav class="bg-white shadow-sm px-6 md:px-12 py-4 flex justify-between items-center">
+    <div class="flex items-center gap-3 cursor-pointer" [routerLink]="['/']">
+      <img src="assets/images/logogreen.png" class="h-12">
+      <div>
+        <p class="font-bold text-lg text-gray-800">Excellent Training</p>
+        <p class="text-xs text-gray-500">Green Building</p>
+      </div>
+    </div>
+<div class="hidden md:flex items-center gap-6">
+    <ul class="hidden md:flex gap-8 text-gray-600 font-medium">
+      <li><a [routerLink]="['/']" routerLinkActive="text-gray-900 font-semibold" class="hover:text-gray-900">Accueil</a></li>
+      <!--<li><a [routerLink]="['/formations']" routerLinkActive="text-gray-900 font-semibold" class="hover:text-gray-900">Formations</a></li>
+      <li><a [routerLink]="['/formateurs']" routerLinkActive="text-gray-900 font-semibold" class="hover:text-gray-900">Formateurs</a></li>
+      <li><a [routerLink]="['/participants']" routerLinkActive="text-gray-900 font-semibold" class="hover:text-gray-900">Participants</a></li>
+      <li><a [routerLink]="['/statistiques']" routerLinkActive="text-gray-900 font-semibold" class="hover:text-gray-900">Statistiques</a></li>-->
+      <li><a [routerLink]="['/about']" routerLinkActive="text-gray-900 font-semibold" class="hover:text-gray-900">À propos</a></li>
+    </ul>
+
+    <button [routerLink]="['/login']" class="bg-gray-800 text-white px-5 py-2 rounded-full hover:bg-gray-900">
+      Connexion
+    </button>
+    </div>
+  </nav>
+
+  <!-- SECTION HERO À PROPOS -->
+  <section class="relative bg-gradient-to-br from-gray-900 to-gray-800 text-white py-20 md:py-24 overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute top-0 left-0 w-72 h-72 bg-white rounded-full filter blur-3xl"></div>
+      <div class="absolute bottom-0 right-0 w-96 h-96 bg-teal-300 rounded-full filter blur-3xl"></div>
+    </div>
+
+    <div class="container mx-auto px-6 md:px-12 relative z-10 text-center">
+      <div class="flex justify-center mb-6">
+        <img src="assets/images/logogreen.png" alt="Logo Excellent Training" class="h-24 w-auto">
+      </div>
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">
+        À propos de <span class="text-teal-400">Excellent Training</span>
+      </h1>
+      <p class="text-gray-300 text-lg max-w-2xl mx-auto">
+        Centre de formation professionnelle continue de la société Green Building
+      </p>
+    </div>
+  </section>
+
+  <!-- SECTION NOTRE MISSION -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-6 max-w-4xl">
+      <div class="text-center mb-12">
+        <span class="inline-block bg-gray-100 text-gray-700 text-sm px-4 py-1.5 rounded-full mb-4">Notre mission</span>
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">Pourquoi nous formons ?</h2>
+      </div>
+
+      <div class="space-y-6 text-gray-600 leading-relaxed">
+        <p>
+          La <strong class="text-gray-800">formation professionnelle continue</strong> est un processus d'apprentissage qui permet à une personne d'acquérir des savoirs et savoir-faire.
+          Ce type de formation est un droit pour tous les personnels d'une entreprise ou d'une administration.
+        </p>
+
+        <p>
+          Une personne peut ainsi <strong class="text-gray-800">évoluer tout au long de sa vie active</strong>, en améliorant ses compétences par de nouvelles techniques et connaissances.
+        </p>
+
+        <div class="bg-gray-50 rounded-2xl p-6 my-8">
+          <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">Les avantages de la formation continue</h3>
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="flex gap-3">
+              <i class="fas fa-user-graduate text-teal-500 text-xl mt-1"></i>
+              <div>
+                <h4 class="font-semibold text-gray-800 mb-1">Pour l'employé</h4>
+                <p class="text-sm text-gray-600">Apprendre de nouvelles connaissances, évoluer vers de nouvelles responsabilités, plus de motivation et un investissement total.</p>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <i class="fas fa-building text-teal-500 text-xl mt-1"></i>
+              <div>
+                <h4 class="font-semibold text-gray-800 mb-1">Pour l'entreprise</h4>
+                <p class="text-sm text-gray-600">Gain en qualité et productivité, meilleure fidélisation des employés, personnel qualifié.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION CHIFFRES CLÉS -->
+  <section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">Excellent Training en chiffres</h2>
+        <p class="text-gray-500">Des années d'expertise au service de la formation</p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
+        <div class="text-center">
+          <div class="text-4xl font-bold text-gray-800">500+</div>
+          <div class="text-sm text-gray-500 mt-1">Participants formés</div>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl font-bold text-gray-800">24</div>
+          <div class="text-sm text-gray-500 mt-1">Sessions/an</div>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl font-bold text-gray-800">18</div>
+          <div class="text-sm text-gray-500 mt-1">Formateurs experts</div>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl font-bold text-gray-800">8</div>
+          <div class="text-sm text-gray-500 mt-1">Domaines couverts</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION NOTRE SOLUTION INFORMATIQUE -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-6 max-w-4xl">
+      <div class="text-center mb-10">
+        <span class="inline-block bg-gray-100 text-gray-700 text-sm px-4 py-1.5 rounded-full mb-4">Notre application</span>
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">Une solution digitale pour la gestion de formation</h2>
+      </div>
+
+      <div class="bg-gray-50 rounded-2xl p-8">
+        <p class="text-gray-600 leading-relaxed mb-6">
+          Le centre de formation <strong>« Excellent Training »</strong> de la société <strong>« Green Building »</strong> a décidé de développer un outil informatique qui facilite les tâches de suivi et d'évaluation de ses activités en matière de formation.
+        </p>
+
+        <p class="text-gray-600 leading-relaxed mb-6">
+          Après avoir constaté que le <strong class="text-gray-800">travail manuel est dominant</strong> (papiers, emails, Excel), nous avons développé cette application web pour :
+        </p>
+
+        <ul class="space-y-3">
+          <li class="flex items-center gap-3"><i class="fas fa-check-circle text-teal-500"></i> Centraliser et faciliter l'accès aux données</li>
+          <li class="flex items-center gap-3"><i class="fas fa-check-circle text-teal-500"></i> Obtenir une fiabilité des données grâce à des contrôles de saisie efficaces</li>
+          <li class="flex items-center gap-3"><i class="fas fa-check-circle text-teal-500"></i> Suivre et évaluer les activités en matière de formation</li>
+          <li class="flex items-center gap-3"><i class="fas fa-check-circle text-teal-500"></i> Avoir une application évolutive et maintenable</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION ACTEURS -->
+  <section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">Les acteurs de l'application</h2>
+        <p class="text-gray-500">Trois profils pour une gestion complète</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div class="bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-lg transition">
+          <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-user text-2xl text-gray-700"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-2">Utilisateur</h3>
+          <p class="text-gray-500 text-sm">Gère les formateurs, les formations et les participants</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-lg transition border-t-4 border-teal-500">
+          <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-chart-pie text-2xl text-gray-700"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-2">Responsable</h3>
+          <p class="text-gray-500 text-sm">Consulte les statistiques et évalue les activités</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-6 text-center shadow-sm hover:shadow-lg transition">
+          <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-shield-alt text-2xl text-gray-700"></i>
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-2">Administrateur</h3>
+          <p class="text-gray-500 text-sm">Accès illimité, gestion des comptes, domaines et structures</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION CONTACT -->
+  <section class="py-16 bg-white">
+    <div class="container mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold text-gray-800 mb-4">Contactez-nous</h2>
+      <p class="text-gray-500 mb-8">Une question ? Notre équipe est à votre disposition</p>
+
+      <div class="flex flex-wrap justify-center gap-8 max-w-3xl mx-auto">
+        <div class="flex items-center gap-3">
+          <i class="fas fa-envelope text-teal-500 text-xl"></i>
+          <span class="text-gray-600">contact&#64;excellenttraining.tn</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <i class="fas fa-phone text-teal-500 text-xl"></i>
+          <span class="text-gray-600">+216 25 000 000</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <i class="fas fa-map-marker-alt text-teal-500 text-xl"></i>
+          <span class="text-gray-600">Tunis, Tunisie</span>
+        </div>
+      </div>
+
+      <div class="mt-10">
+        <button [routerLink]="['/contact']" class="bg-gray-800 text-white px-8 py-3 rounded-full hover:bg-gray-900 transition">
+          Nous contacter
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINALE -->
+  <section class="bg-gray-800 text-white py-16 text-center">
+    <h2 class="text-2xl md:text-3xl font-bold mb-4">
+      Prêt à digitaliser la gestion de vos formations ?
+    </h2>
+    <p class="text-gray-300 mb-8">
+      Rejoignez notre plateforme et bénéficiez d'un suivi personnalisé
+    </p>
+    <button [routerLink]="['/login']" class="bg-white text-gray-800 px-8 py-3 rounded-full font-bold hover:bg-gray-200">
+      Commencer maintenant
+    </button>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-gray-900 text-gray-400 pt-16 pb-8">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-4 gap-10 mb-12">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <img src="assets/images/logogreen.png" class="h-10">
+            <span class="text-white font-bold text-lg">Excellent Training</span>
+          </div>
+          <p class="text-sm text-gray-500">
+            Centre de formation professionnelle continue<br>
+            Green Building
+          </p>
+        </div>
+
+        <div>
+          <h4 class="text-white font-semibold mb-4">Navigation</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a [routerLink]="['/']" class="hover:text-white">Accueil</a></li>
+            <li><a [routerLink]="['/formations']" class="hover:text-white">Formations</a></li>
+            <li><a [routerLink]="['/formateurs']" class="hover:text-white">Formateurs</a></li>
+            <li><a [routerLink]="['/participants']" class="hover:text-white">Participants</a></li>
+            <li><a [routerLink]="['/statistiques']" class="hover:text-white">Statistiques</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-semibold mb-4">Contact</h4>
+          <ul class="space-y-3 text-sm">
+            <li><i class="fas fa-envelope mr-2"></i>contact&#64;excellenttraining.tn</li>
+            <li><i class="fas fa-phone mr-2"></i> +216 25 000 000</li>
+            <li><i class="fas fa-map-marker-alt mr-2"></i> Tunis, Tunisie</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-semibold mb-4">Suivez-nous</h4>
+          <div class="flex gap-4 mb-6">
+            <i class="fab fa-linkedin text-xl hover:text-white cursor-pointer"></i>
+            <i class="fab fa-facebook text-xl hover:text-white cursor-pointer"></i>
+            <i class="fab fa-twitter text-xl hover:text-white cursor-pointer"></i>
+          </div>
+          <div class="text-sm space-y-2">
+            <p><span class="text-white font-bold">+500</span> participants formés</p>
+            <p><span class="text-white font-bold">98%</span> de satisfaction</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-800 pt-6 text-center text-xs text-gray-500">
+        © 2026 Excellent Training — Green Building — Tous droits réservés
+      </div>
+    </div>
+  </footer>
+
+</div>
